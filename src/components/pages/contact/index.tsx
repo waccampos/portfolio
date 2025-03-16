@@ -7,68 +7,26 @@ import { SectionTitle } from "@/components/ui/section-title";
 import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
 import { Github, Linkedin, Loader2, Mail, MapPin, Phone, Send } from "lucide-react";
-import { useState } from "react";
+import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
-import { z } from "zod";
-
-const zodSchema = z.object({
-  name: z.string().min(3, "O nome deve ter no mínimo 3 caracteres"),
-  email: z.string().email("E-mail inválido"),
-  subject: z.string().min(3, "O assunto deve ter no mínimo 3 caracteres"),
-  message: z.string().min(3, "A mensagem deve ter no mínimo 3 caracteres"),
-});
+import { sendEmail } from "./actions/send-email";
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: { value: "", error: "" },
-    email: { value: "", error: "" },
-    subject: { value: "", error: "" },
-    message: { value: "", error: "" },
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [state, formAction, pending] = useActionState(sendEmail, null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: { value, error: "" } }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const result = await zodSchema.safeParseAsync({
-      name: formData.name.value,
-      email: formData.email.value,
-      subject: formData.subject.value,
-      message: formData.message.value,
-    });
-
-    if (result.error) {
-      result.error.errors.forEach((error) => {
-        const path = error.path[0] as keyof typeof formData;
-        setFormData((prev) => ({
-          ...prev,
-          [path]: { value: prev[path].value, error: error.message },
-        }));
-        toast.error(error.message);
-      });
-      setIsSubmitting(false);
-      return;
+  useEffect(() => {
+    if (state?.success) {
+      toast.success("Mensagem enviada com sucesso!");
     }
-
-    setFormData({
-      name: { value: "", error: "" },
-      email: { value: "", error: "" },
-      subject: { value: "", error: "" },
-      message: { value: "", error: "" },
-    });
-
-    toast.success("Mensagem enviada com sucesso!", {
-      description: "Obrigado pelo seu contato. Responderei o mais breve possível.",
-    });
-
-    setIsSubmitting(false);
-  };
+    if (!state?.success && !state?.errors?.validation) {
+      toast.error("Ocorreu um erro ao enviar a mensagem.");
+    }
+    if (state?.errors?.validation) {
+      Object.values(state.errors.validation).forEach((error) => {
+        toast.error(error[0]);
+      });
+    }
+  }, [state]);
 
   return (
     <AnimatedTransition>
@@ -92,7 +50,7 @@ export default function ContactPage() {
             >
               <h2 className="text-2xl font-bold mb-6">Envie uma Mensagem</h2>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form action={formAction} method="POST" className="space-y-5">
                 <div>
                   <Label htmlFor="name" className="block text-sm font-medium mb-1">
                     Nome
@@ -101,10 +59,12 @@ export default function ContactPage() {
                     id="name"
                     name="name"
                     placeholder="Seu nome"
-                    value={formData.name.value}
-                    onChange={handleChange}
-                    aria-invalid={!!formData.name.error}
+                    defaultValue={state?.data?.name}
+                    aria-invalid={!!state?.errors?.validation?.name}
                   />
+                  {state?.errors?.validation?.name && (
+                    <span className="text-xs text-destructive">{state?.errors?.validation?.name}</span>
+                  )}
                 </div>
 
                 <div>
@@ -115,10 +75,12 @@ export default function ContactPage() {
                     id="email"
                     name="email"
                     placeholder="seu.email@exemplo.com"
-                    value={formData.email.value}
-                    onChange={handleChange}
-                    aria-invalid={!!formData.email.error}
+                    defaultValue={state?.data?.email}
+                    aria-invalid={!!state?.errors?.validation?.email}
                   />
+                  {state?.errors?.validation?.email && (
+                    <span className="text-xs text-destructive">{state?.errors?.validation?.email}</span>
+                  )}
                 </div>
 
                 <div>
@@ -129,10 +91,12 @@ export default function ContactPage() {
                     id="subject"
                     name="subject"
                     placeholder="Assunto da mensagem"
-                    value={formData.subject.value}
-                    onChange={handleChange}
-                    aria-invalid={!!formData.subject.error}
+                    defaultValue={state?.data?.subject}
+                    aria-invalid={!!state?.errors?.validation?.subject}
                   />
+                  {state?.errors?.validation?.subject && (
+                    <span className="text-xs text-destructive">{state?.errors?.validation?.subject}</span>
+                  )}
                 </div>
 
                 <div>
@@ -144,17 +108,19 @@ export default function ContactPage() {
                     name="message"
                     placeholder="Digite sua mensagem aqui..."
                     rows={5}
-                    value={formData.message.value}
-                    onChange={handleChange}
-                    aria-invalid={!!formData.message.error}
+                    defaultValue={state?.data?.message}
+                    aria-invalid={!!state?.errors?.validation?.message}
                   />
+                  {state?.errors?.validation?.message && (
+                    <span className="text-xs text-destructive">{state?.errors?.validation?.message}</span>
+                  )}
                 </div>
 
-                <Button type="submit" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? (
+                <Button type="submit" className="w-full" disabled={pending}>
+                  {pending ? (
                     <span className="flex items-center gap-2">
-                      <Loader2 size={16} className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" />
                       Enviando...
+                      <Loader2 size={16} className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" />
                     </span>
                   ) : (
                     <span className="flex items-center gap-2">

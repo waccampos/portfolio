@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import ThemeToggle from "./theme-toggle";
+import { ThemeToggle } from "./theme-toggle";
 
 const navItems = [
   { path: "/", label: "Home" },
@@ -48,7 +48,6 @@ export function Header() {
 
           <nav className="hidden md:flex items-center space-x-1 gap-7">
             {navItems.map((item) => (
-              //TODO -  adiciona a animacao ao clicar no item(animacao no after)
               <Link
                 key={item.path}
                 href={item.path}

@@ -4,7 +4,7 @@ import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import { Badge } from "../badge";
 import { Button } from "../button";
-interface ProjectItemProps {
+export interface ProjectItemProps {
   title: string;
   description: string;
   technologies: string[];
@@ -19,7 +19,7 @@ export function ProjectItem(props: ProjectItemProps) {
 
   return (
     <motion.div
-      className="glass-card overflow-hidden rounded-xl border"
+      className="glass-card overflow-hidden rounded-xl border hover:shadow-md transition-all duration-300"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}

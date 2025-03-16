@@ -102,8 +102,8 @@ export function Hero() {
                     <div className="flex flex-wrap gap-2 mt-2">
                       {[
                         "HTML (Bootstrap)",
-                        "CSS (Tailwind CSS, Sass)",
-                        "javascript/TypeScript",
+                        "CSS (Tailwind CSS e Sass)",
+                        "Javascript/TypeScript",
                         "React (Next.js)",
                         "React Native (Expo)",
                       ].map((skill) => (
@@ -117,7 +117,7 @@ export function Hero() {
                   <div>
                     <h3 className="font-medium text-lg">Backend</h3>
                     <div className="flex flex-wrap gap-2 mt-2">
-                      {["Node.js (Nest.js, Express, Fastify)", "Java (Spring Boot)", "Python (Django)"].map(
+                      {["Node.js (Nest.js, Express e Fastify)", "Java (Spring Boot)", "Python (Django)"].map(
                         (skill) => (
                           <span
                             key={skill}
@@ -146,7 +146,9 @@ export function Hero() {
                     </p>
                     <p className="text-sm text-muted-foreground mt-1">
                       Experiência:{" "}
-                      <span className="font-medium text-foreground">2+ anos de desenvolvimento</span>
+                      <span className="font-medium text-foreground">
+                        2+ anos de desenvolvimento de software
+                      </span>
                     </p>
                   </div>
                 </div>
