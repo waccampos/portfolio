@@ -52,7 +52,7 @@ export default function Projects() {
             </p>
             <Button size="lg" asChild>
               <a
-                href="https://github.com/williamsaldsoncampos"
+                href="https://github.com/waccampos"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2"
