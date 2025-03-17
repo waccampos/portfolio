@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { Github, Linkedin, Loader2, Mail, MapPin, Phone, Send } from "lucide-react";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
-import { sendEmail } from "./actions/send-email";
+import { sendEmail } from "../../../app/actions";
 
 export default function ContactPage() {
   const [state, formAction, pending] = useActionState(sendEmail, null);
