@@ -15,17 +15,25 @@ export default function ContactPage() {
   const [state, formAction, pending] = useActionState(sendEmail, null);
 
   useEffect(() => {
-    if (state?.success) {
+    if (!state) return;
+
+    if (state.success) {
       toast.success("Mensagem enviada com sucesso!");
+      return;
     }
-    if (!state?.success && !state?.errors?.validation) {
-      toast.error("Ocorreu um erro ao enviar a mensagem.");
-    }
-    if (state?.errors?.validation) {
+
+    if (state.errors?.validation) {
       Object.values(state.errors.validation).forEach((error) => {
         toast.error(error[0]);
       });
+      return;
     }
+
+    toast.error("Ocorreu um erro ao enviar a mensagem.");
+
+    return () => {
+      toast.dismiss();
+    };
   }, [state]);
 
   return (
@@ -50,7 +58,7 @@ export default function ContactPage() {
             >
               <h2 className="text-2xl font-bold mb-6">Envie uma Mensagem</h2>
 
-              <form action={formAction} method="POST" className="space-y-5">
+              <form action={formAction} className="space-y-5">
                 <div>
                   <Label htmlFor="name" className="block text-sm font-medium mb-1">
                     Nome

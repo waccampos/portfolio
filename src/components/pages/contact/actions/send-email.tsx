@@ -1,5 +1,7 @@
 "use server";
 
+import { EmailTemplate } from "@/mails/contact-email";
+import { Resend } from "resend";
 import { z } from "zod";
 
 const zodSchema = z.object({
@@ -30,31 +32,23 @@ export async function sendEmail(_prevState: unknown, formData: FormData) {
   }
 
   try {
-    const res = await fetch("https://graph.microsoft.com/v1.0/me/sendMail", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.MS_GRAPH_TOKEN}`,
-      },
-      body: JSON.stringify({
-        message: {
-          subject: `${validatedFields.data.subject} - ${validatedFields.data.name}(${validatedFields.data.email})`,
-          body: {
-            contentType: "Text",
-            content: validatedFields.data.message,
-          },
-          toRecipients: [
-            {
-              emailAddress: {
-                address: process.env.CONTACT_EMAIL,
-              },
-            },
-          ],
-        },
+    const { email, message, name, subject } = validatedFields.data;
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const { error } = await resend.emails.send({
+      from: "Acme <onboarding@resend.dev>",
+      to: process.env.CONTACT_EMAIL!,
+      subject: subject,
+      react: EmailTemplate({
+        name,
+        email,
+        subject,
+        message,
       }),
     });
 
-    if (!res.ok) throw new Error("Error sending email");
+    if (error) throw new Error("Error sending email");
+
     return {
       data: {
         name: "",
