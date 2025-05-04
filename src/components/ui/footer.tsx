@@ -18,7 +18,7 @@ export function Footer() {
 
             <div className="flex items-center mt-6 space-x-4">
               <a
-                href="mailto:willamscampos@outlook.com"
+                href="mailto:willamscampos.dev@gmail.com"
                 className="flex items-center justify-center w-10 h-10 rounded-full bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                 aria-label="Email"
               >
@@ -84,10 +84,10 @@ export function Footer() {
               <p className="mt-2">Brasil</p>
               <p className="mt-3">
                 <a
-                  href="mailto:willamscampos@outlook.com"
+                  href="mailto:willamscampos.dev@gmail.com"
                   className="hover:text-foreground transition-colors"
                 >
-                  willamscampos@outlook.com
+                  willamscampos.dev@gmail.com
                 </a>
               </p>
             </address>

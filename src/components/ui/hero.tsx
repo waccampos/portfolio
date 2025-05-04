@@ -48,7 +48,7 @@ export function Hero() {
 
               <div className="flex items-center space-x-4">
                 <a
-                  href="mailto:willamscampos@outlook.com"
+                  href="mailto:willamscampos.dev@gmail.com"
                   className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
                   aria-label="Email"
                 >

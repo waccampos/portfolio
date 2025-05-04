@@ -154,10 +154,10 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-medium mb-1">Email</h3>
                     <a
-                      href="mailto:willamscampos@outlook.com"
+                      href="mailto:willamscampos.dev@gmail.com"
                       className="text-muted-foreground hover:text-primary transition-colors"
                     >
-                      willamscampos@outlook.com
+                      willamscampos.dev@gmail.com
                     </a>
                   </div>
                 </div>
@@ -209,7 +209,7 @@ export default function ContactPage() {
                       <Linkedin size={20} />
                     </a>
                     <a
-                      href="mailto:willamscampos@outlook.com"
+                      href="mailto:willamscampos.dev@gmail.com"
                       className="p-3 rounded-full bg-secondary hover:bg-primary/10 hover:text-primary transition-colors"
                       aria-label="Email"
                     >
