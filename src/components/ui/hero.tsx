@@ -20,7 +20,7 @@ export function Hero() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium">
+              <span className="inline-block px-4 py-1.5 bg-primary/30 text-primary rounded-full text-sm font-medium">
                 Full-Stack Developer
               </span>
 

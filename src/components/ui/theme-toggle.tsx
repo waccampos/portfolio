@@ -22,7 +22,7 @@ export function ThemeToggle() {
   }
 
   return (
-    <Button variant="ghost" size="icon" onClick={toggleTheme}>
+    <Button aria-label="Toggle theme mode" variant="ghost" size="icon" onClick={toggleTheme}>
       {theme === "light" ? (
         <Moon className="h-[1.2rem] w-[1.2rem]" />
       ) : (
